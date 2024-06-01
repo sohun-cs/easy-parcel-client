@@ -59,8 +59,8 @@ const Navbar = () => {
         <div className={` w-full ${active ? 'fixed duration-1000 z-50 animate__animated animate__fadeInDown ' : 'duration-1000 sticky z-50 a'} `}>
             <div className=" shadow-md z-50  bg-white">
 
-                <div className={`flex items-center justify-between z-50 ${active ? 'px-2 py-4 lg:py-2' : 'px-2 lg:px-4 py-4'}`}>
-                    <Link>
+                <div className={`flex items-center justify-between z-50 ${active ? 'px-2 py-4 lg:px-4 lg:py-2' : 'px-2 lg:px-4 py-4'}`}>
+                    <Link to='/'>
                         <h1 className="font-dongle text-4xl font-bold flex">Easy <span className=" text-pink-300">Parcel</span></h1>
                     </Link>
 
@@ -86,7 +86,7 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
-            <div className={`absolute w-full py-4 px-2 bg-pink-50 flex flex-col -z-10 right-0 lg:hidden ${open ? "top-16 duration-1000" : "-top-96 duration-1000"
+            <div className={`absolute w-full py-4 px-2 bg-pink-50 flex flex-col -z-10 right-0 lg:hidden ${open ? "top-16 duration-500" : "-top-96 duration-500"
                 }`}>
 
                 <ul className=" bg-pink-50 flex flex-col -z-10 gap-2">
