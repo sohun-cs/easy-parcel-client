@@ -1,14 +1,14 @@
-import {   Button, DatePicker } from "antd";
-import { PiCodesandboxLogoThin } from "react-icons/pi";
+// import {   Button, DatePicker } from "antd";
+// import { PiCodesandboxLogoThin } from "react-icons/pi";
 
 
 
 const Home = () => {
 
-    
+
     return (
-        <div>
-            <h1 className="font-dongle text-7xl font-extrabold text-pink-300">EasyParcel</h1>
+        <div className="h-[3000px]">
+            {/* <h1 className="font-dongle text-7xl font-extrabold text-pink-300">EasyParcel</h1>
             <PiCodesandboxLogoThin className="text-7xl text-pink-300" />
 
             <Button type="primary">PRESS ME</Button>
@@ -21,9 +21,9 @@ const Home = () => {
                 <p className="mt-3 text-gray-700 max-w-xs mx-auto">Click to <span className="font-medium text-indigo-600">Upload your  file</span> or drag and drop your file here</p>
             </label>
             <input id="file" type="file" className="hidden" accept="images/*" />
-        </div>
+        </div> */}
 
-        
+          
 
         </div>
     );
