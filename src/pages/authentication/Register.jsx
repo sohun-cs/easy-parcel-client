@@ -4,21 +4,36 @@ import { FaFacebook } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 
 
 const Register = () => {
 
+    const { user, createUser } = useAuth()
     const [showPassword, setShowPassword] = useState(false);
+
+
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
 
-    const onSubmit = data => {
+    const onSubmit = async data => {
 
         console.log(data);
+
+        const name = data.name;
+        const email = data.email;
+        const password = data.password;
+
+        await createUser(email, password);
+        toast.success('Successfully toasted!')
+
+        
+
 
 
     }
