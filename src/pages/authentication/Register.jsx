@@ -3,12 +3,26 @@ import { FaRegEye, FaRegEyeSlash, FaTwitter } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 
 
 const Register = () => {
 
     const [showPassword, setShowPassword] = useState(false);
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
+
+    const onSubmit = data => {
+
+        console.log(data);
+
+
+    }
+
 
     return (
         <main className="w-full flex">
@@ -68,7 +82,7 @@ const Register = () => {
                         <p className="inline-block w-fit text-sm bg-white px-2 absolute -top-2 inset-x-0 mx-auto">Or continue with</p>
                     </div>
                     <form
-                        onSubmit={(e) => e.preventDefault()}
+                        onSubmit={handleSubmit(onSubmit)}
                         className="space-y-5"
                     >
                         <div>
@@ -77,7 +91,8 @@ const Register = () => {
                             </label>
                             <input
                                 type="text"
-                                required
+                                {...register("name", { required: true })}
+                                placeholder="Enter your name"
                                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
                             />
                         </div>
@@ -87,7 +102,8 @@ const Register = () => {
                             </label>
                             <input
                                 type="email"
-                                required
+                                {...register("email", { required: true })}
+                                placeholder="Enter your email"
                                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
                             />
                         </div>
@@ -97,7 +113,8 @@ const Register = () => {
                             </label>
                             <input
                                 type={showPassword ? 'text' : 'password'}
-                                required
+                                {...register("password", { required: true })}
+                                placeholder="Enter your password"
                                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
                             />
                             {
@@ -105,6 +122,7 @@ const Register = () => {
                             }
                         </div>
                         <button
+                            type="submit"
                             className="w-full px-4 py-2 text-white font-medium bg-pink-600 hover:bg-pink-500 active:bg-pink-600 rounded-lg duration-150"
                         >
                             Create account
