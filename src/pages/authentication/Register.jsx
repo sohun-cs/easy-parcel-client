@@ -25,19 +25,29 @@ const Register = () => {
 
         console.log(data);
 
-        const name = data.name;
-        const email = data.email;
-        const password = data.password;
+        // const name = data.name;
+        // const email = data.email;
+        // const password = data.password;
 
-        await createUser(email, password);
-        toast.success('Successfully toasted!')
+        // try {
+        //     await createUser(email, password);
+        //     toast.success('Successfully toasted!')
+        // } catch (error) {
 
-        
+        //     console.log(error.message)
 
+        // }
 
-
+        createUser(data.email, data.password)
+            .then(result => {
+                const loggedUser = result.user;
+                console.log("logged: ", loggedUser);
+                console.log("Name: ", data.name);
+                console.log("PhotoURL: ", data.photoURL);
+                const name = data.name;
+                const photo = data.photoURL
+            })
     }
-
 
     return (
         <main className="w-full flex">
@@ -136,12 +146,11 @@ const Register = () => {
                                 showPassword ? <FaRegEyeSlash className="absolute right-3 top-11" onClick={() => setShowPassword(!showPassword)} /> : <FaRegEye className="absolute right-3 top-11" onClick={() => setShowPassword(!showPassword)} />
                             }
                         </div>
-                        <button
+                        <input
                             type="submit"
+                            value='Create account'
                             className="w-full px-4 py-2 text-white font-medium bg-pink-600 hover:bg-pink-500 active:bg-pink-600 rounded-lg duration-150"
-                        >
-                            Create account
-                        </button>
+                        />
                     </form>
                 </div>
             </div>
