@@ -1,7 +1,7 @@
 import { FcGoogle } from "react-icons/fc";
 import { FaRegEye, FaRegEyeSlash, FaTwitter } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
@@ -11,8 +11,9 @@ import toast from "react-hot-toast";
 
 const Register = () => {
 
-    const { user, setUser, createUser, updateUser } = useAuth()
+    const { user, setUser, createUser, updateUser } = useAuth();
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
 
     // const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY
     // const image_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
@@ -33,17 +34,18 @@ const Register = () => {
         const password = data.password;
 
         try {
-            await createUser(email, password, email);
+            await createUser(email, password);
 
-            await updateUser(name, photo);
-            setUser({ user, displayName: name, photoURL: photo, email: email });
+            await updateUser(name, photo, email);
+            setUser({ ...user, displayName: name, photoURL: photo, email: email });
 
             toast.success('Successfully toasted!');
+            navigate('/');
 
 
         } catch (error) {
 
-            console.log(error.message)
+            toast.error(error.message)
 
         }
 
@@ -68,7 +70,7 @@ const Register = () => {
                             <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=a72ca28288878f8404a795f39642a46f" className="w-10 h-10 rounded-full border-2 border-white" />
                             <img src="https://randomuser.me/api/portraits/men/86.jpg" className="w-10 h-10 rounded-full border-2 border-white" />
                             <img src="https://images.unsplash.com/photo-1510227272981-87123e259b17?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=3759e09a5b9fbe53088b23c615b6312e" className="w-10 h-10 rounded-full border-2 border-white" />
-                            <p className="text-sm text-gray-400 font-medium translate-x-5">
+                            <p className="text-xs text-gray-400 font-medium translate-x-5">
                                 Join 5.000+ users
                             </p>
                         </div>
@@ -84,11 +86,11 @@ const Register = () => {
                 </div>
             </div>
             <div className="flex-1 flex items-center justify-center h-screen">
-                <div className="w-full max-w-md space-y-8 px-4 bg-white text-gray-600 sm:px-0">
+                <div className="w-full max-w-md space-y-8 px-4 bg-white text-gray-600 xs:px-0">
                     <div className="">
 
                         <div className="mt-5 space-y-2">
-                            <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl">Sign up</h3>
+                            <h3 className="text-gray-800 text-2xl font-bold xs:text-3xl">Sign up</h3>
                             <p className="">Already have an account? <Link to='/login' className="font-medium text-pink-600 hover:text-pink-500">Sign in</Link></p>
                         </div>
                     </div>
@@ -105,7 +107,7 @@ const Register = () => {
                     </div>
                     <div className="relative">
                         <span className="block w-full h-px bg-gray-300"></span>
-                        <p className="inline-block w-fit text-sm bg-white px-2 absolute -top-2 inset-x-0 mx-auto">Or continue with</p>
+                        <p className="inline-block w-fit text-xs bg-white px-2 absolute -top-2 inset-x-0 mx-auto">Or continue with</p>
                     </div>
                     <form
                         onSubmit={handleSubmit(onSubmit)}
@@ -120,9 +122,9 @@ const Register = () => {
                                 type="text"
                                 {...register("name", { required: true })}
                                 placeholder="Enter your name"
-                                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
+                                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-xs rounded-lg"
                             />
-                            {errors.name && <span className="text-red-600 text-sm ms-2">Name is required</span>}
+                            {errors.name && <span className="text-red-600 text-xs">Name is required</span>}
                         </div>
 
                         {/* Email */}
@@ -134,9 +136,9 @@ const Register = () => {
                                 type="email"
                                 {...register("email", { required: true })}
                                 placeholder="Enter your email"
-                                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
+                                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-xs rounded-lg"
                             />
-                            {errors.email && <span className="text-red-600 text-sm ms-2">Email is required</span>}
+                            {errors.email && <span className="text-red-600 text-xs">Email is required</span>}
                         </div>
 
                         {/* Photo */}
@@ -151,7 +153,7 @@ const Register = () => {
                                     id="file" type="file" className="hidden" />
 
                             </div>
-                            {errors.photo && <span className="text-red-600 text-sm ms-2">Photo is required</span>}
+                            {errors.photo && <span className="text-red-600 text-xs">Photo is required</span>}
                         </div> */}
 
                         {/* Photo URL */}
@@ -159,7 +161,7 @@ const Register = () => {
                             <label className="font-medium">
                                 PhotoURL
                             </label>
-                            <input {...register("photoURL", { required: true })} type="url" name='photoURL' placeholder="url" className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg" />
+                            <input {...register("photoURL", { required: true })} type="url" name='photoURL' placeholder="url" className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-xs rounded-lg" />
                             {errors.name && <span className="text-red-600">Photo url is required</span>}
                         </div>
 
@@ -170,14 +172,21 @@ const Register = () => {
                             </label>
                             <input
                                 type={showPassword ? 'text' : 'password'}
-                                {...register("password", { required: true })}
+                                {...register("password",
+                                    {
+                                        required: true,
+                                        minLength: 6,
+                                        pattern: /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])/
+                                    })}
                                 placeholder="Enter your password"
-                                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
+                                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-xs rounded-lg"
                             />
                             {
                                 showPassword ? <FaRegEyeSlash className="absolute right-3 top-11" onClick={() => setShowPassword(!showPassword)} /> : <FaRegEye className="absolute right-3 top-11" onClick={() => setShowPassword(!showPassword)} />
                             }
-                            {errors.password && <span className="text-red-600 text-sm ms-2">Password is required</span>}
+                            {errors.password?.type === 'required' && <span className="text-red-600 text-xs">Password is required</span>}
+                            {errors.password?.type === 'minLength' && <span className="text-red-600 text-xs">password must be at least 6 characters</span>}
+                            {errors.password?.type === 'pattern' && <span className="text-red-600 text-xs">Password must at least a capital letter, a xsall letter, a number and a special character.</span>}
                         </div>
 
                         {/* Submit Button */}

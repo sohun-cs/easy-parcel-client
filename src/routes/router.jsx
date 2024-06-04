@@ -5,8 +5,7 @@ import Dashboard from "../pages/dashboard/Dashboard";
 import Notification from "../pages/notification/Notification";
 import Login from "../pages/authentication/Login";
 import Register from "../pages/authentication/Register";
-
-
+import PrivateRoutes from "./PrivateRoutes";
 
 
 const router = createBrowserRouter([
@@ -15,16 +14,16 @@ const router = createBrowserRouter([
         element: <Root></Root>,
         children: [
             {
-                index: true,
+                path: '/',
                 element: <Home></Home>
             },
             {
                 path: '/dashboard',
-                element: <Dashboard></Dashboard>
+                element: <PrivateRoutes><Dashboard></Dashboard></PrivateRoutes>
             },
             {
                 path: '/notification',
-                element: <Notification></Notification>
+                element: <PrivateRoutes><Notification></Notification></PrivateRoutes>
             },
             {
                 path: '/login',
