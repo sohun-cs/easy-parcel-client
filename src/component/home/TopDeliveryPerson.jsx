@@ -16,7 +16,7 @@ const TopDeliveryPerson = () => {
             </HeaderTitles>
 
 
-            <div className=" flex gap-4 justify-between items-center">
+            <div className=" flex flex-col md:flex-row gap-4 justify-between items-center">
 
                 <Tilt>
                     <div className="max-w-96 p-4 border-2 rounded-xl bg-gray-100 cursor-pointer">

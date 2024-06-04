@@ -1,17 +1,85 @@
 import { Badge } from "antd";
 import { Link, NavLink } from "react-router-dom";
 import { IoIosNotificationsOutline } from "react-icons/io";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CiMenuFries } from "react-icons/ci";
 import { TfiClose } from "react-icons/tfi";
 import 'animate.css';
+import useAuth from "../hooks/useAuth";
+import { IoLogOutOutline } from "react-icons/io5";
+
 
 
 
 const Navbar = () => {
 
+    const { user, logout } = useAuth();
     const [open, setOpen] = useState(false);
     const [active, setActive] = useState(false);
+
+    const handleLogout = () => {
+        logout()
+    }
+
+    const ProfileDropDown = () => {
+
+        const [state, setState] = useState(false)
+        const profileRef = useRef()
+
+
+
+        useEffect(() => {
+            const handleDropDown = (e) => {
+                if (!profileRef.current.contains(e.target)) setState(false)
+            }
+            document.addEventListener('click', handleDropDown)
+        }, [])
+
+        return (
+            <div className={`relative bg-white py-2`}>
+                <div className="flex justify-between items-center space-x-4 px-2">
+                    <div className="flex items-center gap-3 overflow-hidden">
+                        <button ref={profileRef} className="w-10 h-10 outline-none rounded-full ring-offset-2 ring-gray-200 ring-2 lg:focus:ring-indigo-600"
+                            onClick={() => setState(!state)}
+                        >
+                            <img
+                                src={user?.photoURL}
+                                className="w-full h-full rounded-full"
+                            />
+                        </button>
+                        <div className="lg:hidden">
+                            <span className="block text-xs">
+                                {user?.displayName}
+                            </span>
+                            <span className="block text-xs text-gray-500">
+                                {user?.email}
+                            </span>
+
+                        </div>
+                    </div>
+                    <Link to='/' className="text-red-400 text-2xl lg:hidden" onClick={handleLogout}>
+                        <IoLogOutOutline />
+                    </Link>
+                </div>
+                <ul className={`bg-white top-12 right-0 mt-5 space-y-5 lg:absolute lg:border lg:rounded-md lg:text-sm lg:w-52 lg:shadow-md lg:space-y-0 hidden lg:mt-0 ${state ? 'lg:inline-block' : 'lg:hidden'}`}>
+                    <li  >
+                        <a className="block text-gray-600 lg:hover:bg-gray-50 lg:p-2.5" >
+                            {user?.displayName}
+                        </a>
+                    </li>
+                    <li  >
+                        <a className="block text-gray-600 lg:hover:bg-gray-50 lg:p-2.5" >
+                            {user?.email}
+                        </a>
+                    </li>
+                    <li className="w-full bg-rose-400 p-2.5 text-white" >
+                        <Link to='/' onClick={handleLogout}>Logout</Link>
+                    </li>
+                </ul>
+            </div>
+        )
+    }
+
 
     useEffect(() => {
 
@@ -30,7 +98,9 @@ const Navbar = () => {
 
         }
 
-    }, [])
+    }, []);
+
+
 
 
     const link = <>
@@ -48,11 +118,24 @@ const Navbar = () => {
                 </Badge>
             </NavLink>
         </li>
-        <li>
-            <NavLink to='/login' className={({ isActive }) => isActive ? 'text-pink-400' : ''}>Login</NavLink>
-        </li>
+        {
+            user ?
+                <li>
+                    <ProfileDropDown class="mt-5 pt-5 border-t lg:hidden" />
+                </li>
+                :
+                <li>
+                    <NavLink to='/login'
+                        className={({ isActive }) => isActive ? 'text-pink-400' : ''}>Login</NavLink>
+                </li>
+        }
+
+
 
     </>
+
+
+
 
 
     return (

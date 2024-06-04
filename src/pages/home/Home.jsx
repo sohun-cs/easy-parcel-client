@@ -7,8 +7,6 @@ import FeatureStats from "../../component/home/FeatureStats";
 import Feature from "../../component/home/Feature";
 import TopDeliveryPerson from "../../component/home/TopDeliveryPerson";
 
-
-
 const Home = () => {
 
     return (
@@ -20,7 +18,6 @@ const Home = () => {
 
             <Banner></Banner>
             <Feature></Feature>
-
             <FeatureStats></FeatureStats>
 
             <div className="container mx-auto">

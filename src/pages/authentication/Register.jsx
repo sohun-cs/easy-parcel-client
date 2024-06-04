@@ -11,9 +11,11 @@ import toast from "react-hot-toast";
 
 const Register = () => {
 
-    const { user, createUser } = useAuth()
+    const { user, setUser, createUser, updateUser } = useAuth()
     const [showPassword, setShowPassword] = useState(false);
 
+    // const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY
+    // const image_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 
     const {
         register,
@@ -25,28 +27,27 @@ const Register = () => {
 
         console.log(data);
 
-        // const name = data.name;
-        // const email = data.email;
-        // const password = data.password;
+        const name = data.name;
+        const email = data.email;
+        const photo = data.photoURL
+        const password = data.password;
 
-        // try {
-        //     await createUser(email, password);
-        //     toast.success('Successfully toasted!')
-        // } catch (error) {
+        try {
+            await createUser(email, password, email);
 
-        //     console.log(error.message)
+            await updateUser(name, photo);
+            setUser({ user, displayName: name, photoURL: photo, email: email });
 
-        // }
+            toast.success('Successfully toasted!');
 
-        createUser(data.email, data.password)
-            .then(result => {
-                const loggedUser = result.user;
-                console.log("logged: ", loggedUser);
-                console.log("Name: ", data.name);
-                console.log("PhotoURL: ", data.photoURL);
-                const name = data.name;
-                const photo = data.photoURL
-            })
+
+        } catch (error) {
+
+            console.log(error.message)
+
+        }
+
+
     }
 
     return (
@@ -110,6 +111,7 @@ const Register = () => {
                         onSubmit={handleSubmit(onSubmit)}
                         className="space-y-5"
                     >
+                        {/* Name */}
                         <div>
                             <label className="font-medium">
                                 Name
@@ -120,7 +122,10 @@ const Register = () => {
                                 placeholder="Enter your name"
                                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
                             />
+                            {errors.name && <span className="text-red-600 text-sm ms-2">Name is required</span>}
                         </div>
+
+                        {/* Email */}
                         <div>
                             <label className="font-medium">
                                 Email
@@ -131,7 +136,34 @@ const Register = () => {
                                 placeholder="Enter your email"
                                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
                             />
+                            {errors.email && <span className="text-red-600 text-sm ms-2">Email is required</span>}
                         </div>
+
+                        {/* Photo */}
+                        {/* <div>
+                            <div className="max-w-md h-40 rounded-lg border-2 border-dashed flex items-center justify-center">
+                                <label htmlFor="file" className="cursor-pointer text-center p-4 md:p-8">
+
+                                    <p className="mt-3 text-gray-700 max-w-xs mx-auto">Click to <span className="font-medium text-indigo-600">Upload your  file</span> or drag and drop your file here</p>
+                                </label>
+                                <input
+                                    {...register("image", { required: true })}
+                                    id="file" type="file" className="hidden" />
+
+                            </div>
+                            {errors.photo && <span className="text-red-600 text-sm ms-2">Photo is required</span>}
+                        </div> */}
+
+                        {/* Photo URL */}
+                        <div>
+                            <label className="font-medium">
+                                PhotoURL
+                            </label>
+                            <input {...register("photoURL", { required: true })} type="url" name='photoURL' placeholder="url" className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg" />
+                            {errors.name && <span className="text-red-600">Photo url is required</span>}
+                        </div>
+
+                        {/* Password */}
                         <div className="relative">
                             <label className="font-medium">
                                 Password
@@ -145,7 +177,10 @@ const Register = () => {
                             {
                                 showPassword ? <FaRegEyeSlash className="absolute right-3 top-11" onClick={() => setShowPassword(!showPassword)} /> : <FaRegEye className="absolute right-3 top-11" onClick={() => setShowPassword(!showPassword)} />
                             }
+                            {errors.password && <span className="text-red-600 text-sm ms-2">Password is required</span>}
                         </div>
+
+                        {/* Submit Button */}
                         <input
                             type="submit"
                             value='Create account'
