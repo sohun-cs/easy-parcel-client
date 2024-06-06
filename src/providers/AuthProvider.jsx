@@ -26,11 +26,12 @@ const AuthProvider = ({ children }) => {
         return signOut(auth).then(() => setUser(null));
     };
 
-    const updateUser = (name, photo, email) => {
+    const updateUser = (name, photo, email, role) => {
         return updateProfile(auth.currentUser, {
             displayName: name,
             photoURL: photo,
-            email: email
+            email: email,
+            role: role
         })
     }
 
@@ -38,8 +39,6 @@ const AuthProvider = ({ children }) => {
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
             setLoading(false);
             setUser(currentUser);
-
-
         });
         return () => {
             return unsubscribe();

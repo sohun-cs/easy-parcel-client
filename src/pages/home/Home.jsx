@@ -9,6 +9,9 @@ import TopDeliveryPerson from "../../component/home/TopDeliveryPerson";
 
 const Home = () => {
 
+    const url = import.meta.env.VITE_BASE_URL;
+    console.log('URL: ', url);
+
     return (
         <div className="">
 
@@ -23,6 +26,7 @@ const Home = () => {
             <div className="container mx-auto">
                 <TopDeliveryPerson></TopDeliveryPerson>
             </div>
+
 
         </div>
     );

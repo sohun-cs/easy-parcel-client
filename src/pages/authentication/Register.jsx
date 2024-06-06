@@ -30,14 +30,15 @@ const Register = () => {
 
         const name = data.name;
         const email = data.email;
-        const photo = data.photoURL
+        const photo = data.photoURL;
+        const role = data.role;
         const password = data.password;
 
         try {
             await createUser(email, password);
 
-            await updateUser(name, photo, email);
-            setUser({ ...user, displayName: name, photoURL: photo, email: email });
+            await updateUser(name, photo, email, role);
+            setUser({ ...user, displayName: name, photoURL: photo, email: email, role: role });
 
             toast.success('Successfully toasted!');
             navigate('/');
@@ -164,6 +165,24 @@ const Register = () => {
                             <input {...register("photoURL", { required: true })} type="url" name='photoURL' placeholder="url" className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-xs rounded-lg" />
                             {errors.name && <span className="text-red-600">Photo url is required</span>}
                         </div>
+
+
+                        <div>
+                            <label className="font-medium">
+                                Register as
+                            </label>
+
+                            <select {...register("role", { required: true })}
+                                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-xs rounded-lg"
+                            >
+                                <option className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-xs rounded-lg" value="user">User</option>
+                                <option className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-xs rounded-lg" value="deliveryPerson">Delivery Man</option>
+                            </select>
+
+                            {errors.name && <span className="text-red-600">Photo url is required</span>}
+                        </div>
+
+
 
                         {/* Password */}
                         <div className="relative">
