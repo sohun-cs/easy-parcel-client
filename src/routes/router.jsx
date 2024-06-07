@@ -11,6 +11,10 @@ import MyParcel from "../pages/dashboard/user/MyParcel";
 import MyProfile from "../pages/dashboard/user/MyProfile";
 import MyDeliveryList from "../pages/dashboard/deliveryPerson/MyDeliveryList";
 import MyReviews from "../pages/dashboard/deliveryPerson/MyReviews";
+import AllDeliveryMen from "../pages/dashboard/admin/AllDeliveryMen";
+import AllParcels from "../pages/dashboard/admin/AllParcels";
+import AllUsers from "../pages/dashboard/admin/AllUsers";
+import Statistics from "../pages/dashboard/admin/Statistics";
 
 
 const router = createBrowserRouter([
@@ -41,6 +45,27 @@ const router = createBrowserRouter([
         path: 'dashboard',
         element: <PrivateRoutes><Dashboard></Dashboard></PrivateRoutes>,
         children: [
+
+            // Admin
+            {
+                path: 'all-deliveryperson',
+                element: <AllDeliveryMen></AllDeliveryMen>
+            },
+            {
+                path: 'all-parcels',
+                element: <AllParcels></AllParcels>
+            },
+            {
+                path: 'all-users',
+                element: <AllUsers></AllUsers>
+            },
+            {
+                path: 'statistics',
+                element: <Statistics></Statistics>
+            },
+
+
+            // User
             {
                 path: 'book-parcel',
                 element: <BookParcel></BookParcel>
@@ -53,8 +78,10 @@ const router = createBrowserRouter([
                 path: 'my-profile',
                 element: <MyProfile></MyProfile>
             },
+
+            // Deliveri Person
             {
-                path: 'my-delivery-list',
+                path: 'my-delivery-lists',
                 element: <MyDeliveryList></MyDeliveryList>
             },
             {
