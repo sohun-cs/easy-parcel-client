@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 
 
@@ -14,6 +15,7 @@ const Register = () => {
     const { user, setUser, createUser, updateUser } = useAuth();
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
+    const axiosPublic = useAxiosPublic();
 
     // const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY
     // const image_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
@@ -21,6 +23,7 @@ const Register = () => {
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm();
 
@@ -38,11 +41,18 @@ const Register = () => {
             await createUser(email, password);
 
             await updateUser(name, photo, email, role);
-            setUser({ ...user, displayName: name, photoURL: photo, email: email, role: role });
+            const theUser = { ...user, displayName: name, photoURL: photo, email: email, role: role };
 
-            toast.success('Successfully toasted!');
-            navigate('/');
+            setUser(theUser);
 
+            axiosPublic.post('/users', theUser)
+                .then(res => {
+                    if (res.data.insertedId) {
+                        reset();
+                        toast.success('Successfully toasted!');
+                        navigate('/');
+                    }
+                })
 
         } catch (error) {
 
