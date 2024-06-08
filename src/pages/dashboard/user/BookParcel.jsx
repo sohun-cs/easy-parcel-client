@@ -1,5 +1,9 @@
+import { DatePicker } from "antd";
+import { useState } from "react";
 
 const BookParcel = () => {
+
+    const [startDate, setStartDate] = useState(new Date());
 
     const handleBookParcel = e => {
 
@@ -163,12 +167,20 @@ const BookParcel = () => {
                             <label className="text-sm font-semibold px-4">
                                 Requested Delivery Date
                             </label> <br />
-                            <input
+                            <DatePicker 
+                            selected={startDate} 
+                            onChange={(date) => setStartDate(date)}
+                            className="w-full bg-gray-100 px-4 py-2 border-b-2 border-pink-200 focus:outline-0 focus:bg-gray-50 focus:border-pink-400 duration-300 rounded-lg" 
+                            name="date"
+                            required
+                            />
+
+                            {/* <input
                                 className="w-full bg-gray-100 px-4 py-2 border-b-2 border-pink-200 focus:outline-0 focus:bg-gray-50 focus:border-pink-400 duration-300 rounded-lg"
                                 type="date"
                                 name="date"
                                 placeholder='Enter Your Requested Delivery Date'
-                                required />
+                                required ></input> */}
                         </div>
 
 
