@@ -22,48 +22,70 @@ const Dashboard = () => {
     console.log('role: ', currentUser?.role);
 
     return (
-        <div className="min-h-screen">
+        <div className="flex">
 
-            <h1>Total user: {users.length}</h1>
 
-            {
-                currentUser?.role === 'admin'
-                &&
-                <>
-                    <Link to='/dashboard/all-deliveryperson'>
-                        All Delivery Person
-                    </Link>
-                    <Link to='/dashboard/all-parcels'>
-                        All Parcels
-                    </Link>
-                    <Link to='/dashboard/all-users'>
-                        All Users
-                    </Link>
-                    <Link to='/dashboard/statistics'>
-                        Statistics
-                    </Link>
-                </>
-            }
+            <div className="w-20 lg:w-64 text-sm lg:text-base min-h-screen text-pink-50 bg-pink-500">
 
-            {
-                currentUser?.role === 'user'
-                &&
-                <>
-                    <Link to='/dashboard/book-parcel'>Book a Parcel</Link>
-                    <Link to='/dashboard/my-parcel'>My Parcel</Link>
-                    <Link to='/dashboard/my-profile'>My Profile</Link>
-                </>
-            }
-            {
-                currentUser?.role === 'deliveryPerson'
-                &&
-                <>
-                    <Link to='/dashboard/my-delivery-lists'>My Delivery List</Link>
-                    <Link to='/dashboard/my-reviews'>My Reviews</Link>
-                </>
-            }
+                <ul>
+                    {
+                        currentUser?.role === 'admin'
+                        &&
+                        <>
+                            <li><Link to='/dashboard/all-deliveryperson'>
+                                All Delivery Person
+                            </Link>
+                            </li>
+                            <li>
+                                <Link to='/dashboard/all-parcels'>
+                                    All Parcels
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to='/dashboard/all-users'>
+                                    All Users
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to='/dashboard/statistics'>
+                                    Statistics
+                                </Link>
+                            </li>
+                        </>
+                    }
 
-            <div>
+                    {
+                        currentUser?.role === 'user'
+                        &&
+                        <>
+                            <li>
+                                <Link to='/dashboard/book-parcel'>Book a Parcel</Link>
+                            </li>
+                            <li>
+                                <Link to='/dashboard/my-parcel'>My Parcel</Link>
+                            </li>
+                            <li>
+                                <Link to='/dashboard/my-profile'>My Profile</Link>
+                            </li>
+                        </>
+                    }
+                    {
+                        currentUser?.role === 'deliveryPerson'
+                        &&
+                        <>
+                            <li>
+                                <Link to='/dashboard/my-delivery-lists'>My Delivery List</Link>
+                            </li>
+                            <li>
+                                <Link to='/dashboard/my-reviews'>My Reviews</Link>
+                            </li>
+                        </>
+                    }
+                </ul>
+
+            </div>
+
+            <div className="flex-1">
                 <Outlet></Outlet>
             </div>
 
