@@ -46,7 +46,7 @@ const Navbar = () => {
             <NavLink to='/' className={({ isActive }) => isActive ? 'text-pink-400' : ''}>Home</NavLink>
         </li>
         <li>
-            <NavLink to='/dashboard/my-parcel' className={({ isActive }) => isActive ? 'text-pink-400' : ''}>Dashboard</NavLink>
+            <NavLink to='/dashboard' className={({ isActive }) => isActive ? 'text-pink-400' : ''}>Dashboard</NavLink>
         </li>
         <li className="hidden lg:inline-block">
             <NavLink to='/notification' className={`flex ${({ isActive }) => isActive ? 'text-pink-400' : ''}`}>

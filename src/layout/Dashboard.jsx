@@ -26,7 +26,7 @@ const Dashboard = () => {
         <div>
             <Navbar></Navbar>
 
-            <div className="flex max-h-[calc(100vh-82px)]">
+            <div className="flex h-[calc(100vh-82px)]">
 
 
                 <div className="w-20 lg:w-64 text-sm lg:text-base text-pink-50 bg-pink-500">
