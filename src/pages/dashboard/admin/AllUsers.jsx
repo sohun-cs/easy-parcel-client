@@ -17,7 +17,7 @@ const AllUsers = () => {
     // })
 
     const axiosSecure = useAxiosSecure();
-    const [users] = useUser();
+    const [users, refetch] = useUser();
     const [parcels] = useParcel();
 
     const leUsers = users.filter(user => user.role === 'user');
@@ -26,15 +26,33 @@ const AllUsers = () => {
     console.log(leUsers)
     console.log("parcel: ", parcel);
 
+    const handleMakeDeliverer = user => {
+        axiosSecure.patch(`/users/deliverer/${user._id}`)
+        .then(res => {
+            if(res.data.modifiedCount > 0){
+                refetch();
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: `${user.name} has become delveryperson now!`,
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+            }
+        })
+    }
+
+
     const handleMakeAdmin = user => {
 
         axiosSecure.patch(`/users/admin/${user._id}`)
         .then(res => {
             if(res.data.modifiedCount > 0){
+                refetch();
                 Swal.fire({
                     position: "top-end",
                     icon: "success",
-                    title: "Your work has been saved",
+                    title: `${user.name} is an admin now!`,
                     showConfirmButton: false,
                     timer: 1500
                   });
@@ -55,7 +73,8 @@ const AllUsers = () => {
                                     Serial
                                 </label>
                             </th>
-                            <th className="text-center">Name</th>
+                            <th className="">Name</th>
+                            <th className="text-center">Role</th>
                             <th className="text-center">Phone Number</th>
                             <th className="text-center">Total Spent</th>
                             <th className="text-center">Make Delivery</th>
@@ -76,7 +95,10 @@ const AllUsers = () => {
                                         </label>
                                     </th>
                                     <td>
-                                        <div className="font-bold">{user.displayName}</div>
+                                        <div className="font-bold">{user?.displayName}</div>
+                                    </td>
+                                    <td>
+                                        <div className="text-sm opacity-50 text-center">{user?.role}</div>
                                     </td>
                                     <td>
                                         <div className="text-sm opacity-50 text-center">{''}</div>
@@ -86,12 +108,14 @@ const AllUsers = () => {
                                     </td>
                                     <td>
                                         <div className="text-center">
-                                            <button>deliverman</button>
+                                            <button onClick={() => handleMakeDeliverer(user)}>deliverman</button>
                                         </div>
                                     </td>
                                     <td>
                                         <div className="text-center">
-                                            <button onClick={() => handleMakeAdmin(user)}>admin</button>
+                                           {
+                                            user?.role === 'admin' ? "Admin" : <button onClick={() => handleMakeAdmin(user)}>admin</button>
+                                           }
                                         </div>
                                     </td>
 
