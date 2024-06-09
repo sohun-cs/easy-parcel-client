@@ -9,7 +9,7 @@ const PrivateRoutes = ({ children }) => {
     const { user, loading } = useAuth();
     const location = useLocation();
 
-    if (loading) return <Flex className='min-h-[calc(100vh-82px-329px-43px)]' align="center" justify='center' gap="middle"><Spin size="large" /></Flex>;
+    if (loading) return <Flex className='min-h-screen' align="center" justify='center' gap="middle"><Spin size="large" /></Flex>;
 
     if (user) return children;
 

@@ -6,6 +6,7 @@ import { CiMenuFries } from "react-icons/ci";
 import { TfiClose } from "react-icons/tfi";
 import 'animate.css';
 import useAuth from "../hooks/useAuth";
+import useParcel from "../hooks/useParcel";
 
 
 
@@ -14,6 +15,7 @@ const Navbar = () => {
     const { user, logout } = useAuth();
     const [open, setOpen] = useState(false);
     const [active, setActive] = useState(false);
+    const [parcels] = useParcel();
 
     const handleLogout = () => {
         logout()
@@ -44,15 +46,16 @@ const Navbar = () => {
             <NavLink to='/' className={({ isActive }) => isActive ? 'text-pink-400' : ''}>Home</NavLink>
         </li>
         <li>
-            <NavLink to='/dashboard' className={({ isActive }) => isActive ? 'text-pink-400' : ''}>Dashboard</NavLink>
+            <NavLink to='/dashboard/my-parcel' className={({ isActive }) => isActive ? 'text-pink-400' : ''}>Dashboard</NavLink>
         </li>
         <li className="hidden lg:inline-block">
             <NavLink to='/notification' className={`flex ${({ isActive }) => isActive ? 'text-pink-400' : ''}`}>
                 <button className="btn btn-ghost btn-circle">
                     <div className="indicator">
-                        <Badge count={0} showZero size="default" color="#223dff">
+                        <Badge count={parcels.length} showZero size="default" color="#223dff">
                             <IoIosNotificationsOutline className="text-2xl" />
                         </Badge>
+
                     </div>
                 </button>
 

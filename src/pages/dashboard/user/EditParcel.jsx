@@ -4,43 +4,66 @@ import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import useParcel from "../../../hooks/useParcel";
+import { useLoaderData, useNavigate } from "react-router-dom";
+import dayjs from 'dayjs';
 
-const BookParcel = () => {
+
+
+const EditParcel = () => {
+
+    const loadedParcel = useLoaderData();
+    console.log('loaded parcel data:', loadedParcel)
+
+    const { _id,
+        name,
+        email,
+        phone_number,
+        parcel,
+        weight,
+        reciever_name,
+        reciever_phone,
+        address,
+        date,
+        latitude,
+        longitude, } = loadedParcel
+
+    console.log('Parcels: ', loadedParcel)
+    const loadedPrice = loadedParcel.price
 
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
     const [startDate, setStartDate] = useState(null);
-    const [weight, setWeight] = useState(0)
-    const [price, setPrice] = useState(0);
-    const[, refetch] = useParcel()
+    const [parcelWeight, setParcelWeight] = useState(weight)
+    const [price, setPrice] = useState(loadedPrice);
+    const [, refetch] = useParcel();
+    const navigate = useNavigate();
 
-    console.log("First date: ", startDate)
 
-    const calculatePrice = weight => {
-        if (weight <= 1 && weight > 0) {
+    const calculatePrice = parcelWeight => {
+        if (parcelWeight <= 1 && parcelWeight > 0) {
             return 50;
         }
-        else if (weight <= 2 && weight > 1) {
+        else if (parcelWeight <= 2 && parcelWeight > 1) {
             return 100;
         }
-        else if (weight > 2) {
+        else if (parcelWeight > 2) {
             return 150;
         }
-        else if (weight < 0) {
+        else if (parcelWeight < 0) {
             return 0
         }
     }
 
     const handleWeigthPrice = e => {
-        const weight = parseFloat(e.target.value);
+        const parcelWeight = parseFloat(e.target.value);
 
-        if (weight) {
-            setWeight(weight)
-            const calculatedPrice = calculatePrice(weight);
+        if (parcelWeight) {
+            setParcelWeight(parcelWeight)
+            const calculatedPrice = calculatePrice(parcelWeight);
             setPrice(calculatedPrice);
         }
         else {
-            setWeight(0);
+            setParcelWeight(null);
             setPrice(0);
         }
     }
@@ -56,20 +79,21 @@ const BookParcel = () => {
         const email = user?.email;
         const phone_number = form.get("phone_number");
         const parcel = form.get("parcel");
-        const weight = form.get("weight");
+        const parcelWeight = form.get("parcelWeight");
         const reciever_name = form.get("reciever_name");
         const reciever_phone = form.get("reciever_phone");
         const address = form.get("address");
         const date = form.get("date");
         const latitude = form.get("latitude");
         const longitude = form.get("longitude");
+        const price = form.get("price")
 
         const parcelData = {
             name: name,
             email: email,
             phone_number: phone_number,
             parcel: parcel,
-            weight: weight,
+            parcelWeight: parcelWeight,
             reciever_name: reciever_name,
             reciever_phone: reciever_phone,
             address: address,
@@ -80,43 +104,26 @@ const BookParcel = () => {
         }
 
         console.log(parcelData)
-        console.log("Submit date: ", startDate)
 
-        axiosSecure.post('/parcels', parcelData)
+        axiosSecure.patch(`/parcel/${_id}`, parcelData)
             .then(res => {
-                if (res.data.insertedId) {
+                console.log('res: ', res)
+                if (res.data.modifiedCount > 0) {
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
-                        title: "Your parcel hasbeen booked!",
+                        title: "Your parcel updated successfully!",
                         showConfirmButton: false,
                         timer: 1500
                     });
                     refetch();
                     e.target.reset();
-                    setWeight(0);
+                    setParcelWeight(null);
                     setPrice(0);
+                    navigate('/dashboard/my-parcel')
                 }
             });
 
-        // const { data: parcels = [] } = useQuery({
-        //     queryKey: ['parcels'],
-        //     queryFn: async () => {
-        //         const res = await axiosSecure.post('/parcels', parcelData)
-        //             .then(res => {
-        //                 if (res.data.insertedId) {
-        //                     Swal.fire({
-        //                         position: "top-end",
-        //                         icon: "success",
-        //                         title: "Your parcel hasbeen booked!",
-        //                         showConfirmButton: false,
-        //                         timer: 1500
-        //                     });
-        //                 }
-        //             })
-        //         return res.data;
-        //     }
-        // })
         setStartDate(null);
 
     }
@@ -137,7 +144,7 @@ const BookParcel = () => {
                                 className="w-full bg-gray-100 px-4 py-2 border-b-2 border-pink-200 focus:outline-0 focus:bg-gray-50 focus:border-pink-400 duration-300 rounded-lg"
                                 type="text"
                                 name="name"
-                                defaultValue={user.displayName}
+                                defaultValue={name}
                                 placeholder="Enter Your Name"
                                 disabled />
                         </div>
@@ -151,7 +158,7 @@ const BookParcel = () => {
                                 className="w-full bg-gray-100 px-4 py-2 border-b-2 border-pink-200 focus:outline-0 focus:bg-gray-50 focus:border-pink-400 duration-300 rounded-lg"
                                 type="email"
                                 name="email"
-                                defaultValue={user.email}
+                                defaultValue={email}
                                 placeholder='Enter Your Email'
                                 disabled />
                         </div>
@@ -165,6 +172,7 @@ const BookParcel = () => {
                                 className="w-full bg-gray-100 px-4 py-2 border-b-2 border-pink-200 focus:outline-0 focus:bg-gray-50 focus:border-pink-400 duration-300 rounded-lg"
                                 type="text"
                                 name="phone_number"
+                                defaultValue={phone_number}
                                 placeholder='Enter Your Phone Number'
                                 required />
                         </div>
@@ -180,6 +188,7 @@ const BookParcel = () => {
                                 className="w-full bg-gray-100 px-4 py-2 border-b-2 border-pink-200 focus:outline-0 focus:bg-gray-50 focus:border-pink-400 duration-300 rounded-lg"
                                 type="text"
                                 name="parcel"
+                                defaultValue={parcel}
                                 placeholder='Enter Your Parcel Type'
                                 required />
                         </div>
@@ -187,15 +196,16 @@ const BookParcel = () => {
 
                         <div className="space-y-2">
                             <label className="text-sm font-semibold px-4">
-                                Parcel Weight
+                                Parcel parcelWeight
                             </label> <br />
                             <input
                                 className="w-full bg-gray-100 px-4 py-2 border-b-2 border-pink-200 focus:outline-0 focus:bg-gray-50 focus:border-pink-400 duration-300 rounded-lg"
                                 type="number"
-                                name="weight"
-                                value={weight}
+                                name="parcelWeight"
+
+                                value={parcelWeight}
                                 onChange={handleWeigthPrice}
-                                placeholder='Enter Your parcel Weight'
+                                placeholder='Enter Your parcel parcelWeight'
                                 required />
                         </div>
 
@@ -210,6 +220,7 @@ const BookParcel = () => {
                             <input
                                 className="w-full bg-gray-100 px-4 py-2 border-b-2 border-pink-200 focus:outline-0 focus:bg-gray-50 focus:border-pink-400 duration-300 rounded-lg"
                                 type="text"
+                                defaultValue={reciever_name}
                                 name="reciever_name"
                                 placeholder="Enter Your Receiver's Name"
                                 required />
@@ -223,6 +234,7 @@ const BookParcel = () => {
                             <input
                                 className="w-full bg-gray-100 px-4 py-2 border-b-2 border-pink-200 focus:outline-0 focus:bg-gray-50 focus:border-pink-400 duration-300 rounded-lg"
                                 type="text"
+                                defaultValue={reciever_phone}
                                 name="reciever_phone"
                                 placeholder="Enter Your Receiver's Phone Number"
                                 required />
@@ -237,6 +249,7 @@ const BookParcel = () => {
                         <input
                             className="w-full bg-gray-100 px-4 py-2 border-b-2 border-pink-200 focus:outline-0 focus:bg-gray-50 focus:border-pink-400 duration-300 rounded-lg"
                             type="text"
+                            defaultValue={address}
                             name="address"
                             placeholder="Enter Your Parcel Delivery Address"
                             required />
@@ -250,11 +263,11 @@ const BookParcel = () => {
                             </label> <br />
                             <DatePicker
                                 selected={startDate}
-                                value={startDate}
-
+                                defaultValue={dayjs(date)}
                                 onChange={(date) => setStartDate(date)}
                                 className="w-full bg-gray-100 px-4 py-2 border-b-2 border-pink-200 focus:outline-0 focus:bg-gray-50 focus:border-pink-400 duration-300 rounded-lg"
                                 name="date"
+
                                 required
                             />
 
@@ -274,6 +287,7 @@ const BookParcel = () => {
                             <input
                                 className="w-full bg-gray-100 px-4 py-2 border-b-2 border-pink-200 focus:outline-0 focus:bg-gray-50 focus:border-pink-400 duration-300 rounded-lg"
                                 type="text"
+                                defaultValue={latitude}
                                 name="latitude"
                                 placeholder='Enter Your Delivery Address Latitude'
                                 required />
@@ -287,6 +301,7 @@ const BookParcel = () => {
                             <input
                                 className="w-full bg-gray-100 px-4 py-2 border-b-2 border-pink-200 focus:outline-0 focus:bg-gray-50 focus:border-pink-400 duration-300 rounded-lg"
                                 type="text"
+                                defaultValue={longitude}
                                 name="longitude"
                                 placeholder='Enter Your Delivery Address Longitude'
                                 required />
@@ -299,10 +314,14 @@ const BookParcel = () => {
                             Price
                         </label> <br />
 
-                        <p
-                            className="w-full bg-gray-100 px-4 py-2 border-b-2 border-pink-200 focus:outline-0 focus:bg-gray-50 focus:border-pink-400 duration-300 rounded-lg">
-                            {price}
-                        </p>
+
+
+                        <input
+                            className="w-full bg-gray-100 px-4 py-2 border-b-2 border-pink-200 focus:outline-0 focus:bg-gray-50 focus:border-pink-400 duration-300 rounded-lg"
+                            value={price}
+                            type="text"
+                            name="price"
+                            disabled />
                     </div>
 
 
@@ -311,7 +330,7 @@ const BookParcel = () => {
                         <input
                             className="w-full text-white font-semibold bg-pink-500 hover:bg-pink-600 duration-300 p-3 rounded-md cursor-pointer"
                             type="submit"
-                            value='Book Button' />
+                            value='Update Parcel' />
                     </div>
 
 
@@ -324,4 +343,4 @@ const BookParcel = () => {
     );
 };
 
-export default BookParcel;
+export default EditParcel;

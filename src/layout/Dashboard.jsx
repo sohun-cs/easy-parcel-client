@@ -2,6 +2,7 @@ import { Link, Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
+import Navbar from "../shared/Navbar";
 
 const Dashboard = () => {
     const { user } = useAuth();
@@ -22,74 +23,79 @@ const Dashboard = () => {
     console.log('role: ', currentUser?.role);
 
     return (
-        <div className="flex">
+        <div>
+            <Navbar></Navbar>
+
+            <div className="flex max-h-[calc(100vh-82px)]">
 
 
-            <div className="w-20 lg:w-64 text-sm lg:text-base min-h-screen text-pink-50 bg-pink-500">
+                <div className="w-20 lg:w-64 text-sm lg:text-base text-pink-50 bg-pink-500">
 
-                <ul>
-                    {
-                        currentUser?.role === 'admin'
-                        &&
-                        <>
-                            <li><Link to='/dashboard/all-deliveryperson'>
-                                All Delivery Person
-                            </Link>
-                            </li>
-                            <li>
-                                <Link to='/dashboard/all-parcels'>
-                                    All Parcels
+                    <ul>
+                        {
+                            currentUser?.role === 'admin'
+                            &&
+                            <>
+                                <li><Link to='/dashboard/all-deliveryperson'>
+                                    All Delivery Person
                                 </Link>
-                            </li>
-                            <li>
-                                <Link to='/dashboard/all-users'>
-                                    All Users
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to='/dashboard/statistics'>
-                                    Statistics
-                                </Link>
-                            </li>
-                        </>
-                    }
+                                </li>
+                                <li>
+                                    <Link to='/dashboard/all-parcels'>
+                                        All Parcels
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to='/dashboard/all-users'>
+                                        All Users
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to='/dashboard/statistics'>
+                                        Statistics
+                                    </Link>
+                                </li>
+                            </>
+                        }
 
-                    {
-                        currentUser?.role === 'user'
-                        &&
-                        <>
-                            <li>
-                                <Link to='/dashboard/book-parcel'>Book a Parcel</Link>
-                            </li>
-                            <li>
-                                <Link to='/dashboard/my-parcel'>My Parcel</Link>
-                            </li>
-                            <li>
-                                <Link to='/dashboard/my-profile'>My Profile</Link>
-                            </li>
-                        </>
-                    }
-                    {
-                        currentUser?.role === 'deliveryPerson'
-                        &&
-                        <>
-                            <li>
-                                <Link to='/dashboard/my-delivery-lists'>My Delivery List</Link>
-                            </li>
-                            <li>
-                                <Link to='/dashboard/my-reviews'>My Reviews</Link>
-                            </li>
-                        </>
-                    }
-                </ul>
+                        {
+                            currentUser?.role === 'user'
+                            &&
+                            <>
+                                <li>
+                                    <Link to='/dashboard/book-parcel'>Book a Parcel</Link>
+                                </li>
+                                <li>
+                                    <Link to='/dashboard/my-parcel'>My Parcel</Link>
+                                </li>
+                                <li>
+                                    <Link to='/dashboard/my-profile'>My Profile</Link>
+                                </li>
+                            </>
+                        }
+                        {
+                            currentUser?.role === 'deliveryPerson'
+                            &&
+                            <>
+                                <li>
+                                    <Link to='/dashboard/my-delivery-lists'>My Delivery List</Link>
+                                </li>
+                                <li>
+                                    <Link to='/dashboard/my-reviews'>My Reviews</Link>
+                                </li>
+                            </>
+                        }
+                    </ul>
+
+                </div>
+
+                <div className="flex-1 overflow-y-scroll">
+                    <Outlet></Outlet>
+                </div>
 
             </div>
-
-            <div className="flex-1">
-                <Outlet></Outlet>
-            </div>
-
         </div>
+
     );
 };
 

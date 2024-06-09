@@ -15,6 +15,7 @@ import AllDeliveryMen from "../pages/dashboard/admin/AllDeliveryMen";
 import AllParcels from "../pages/dashboard/admin/AllParcels";
 import AllUsers from "../pages/dashboard/admin/AllUsers";
 import Statistics from "../pages/dashboard/admin/Statistics";
+import EditParcel from "../pages/dashboard/user/EditParcel";
 
 
 const router = createBrowserRouter([
@@ -77,6 +78,11 @@ const router = createBrowserRouter([
             {
                 path: 'my-profile',
                 element: <MyProfile></MyProfile>
+            },
+            {
+                path: 'edit-parcel/:id',
+                element: <EditParcel></EditParcel>,
+                loader: ({params}) => fetch(`${import.meta.env.VITE_BASE_URL}/parcel/${params.id}`)
             },
 
             // Deliveri Person
