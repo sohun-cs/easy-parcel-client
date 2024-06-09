@@ -54,7 +54,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'all-parcels',
-                element: <AllParcels></AllParcels>
+                element: <AllParcels></AllParcels>,
             },
             {
                 path: 'all-users',

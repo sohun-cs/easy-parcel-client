@@ -1,4 +1,6 @@
 
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useParcel from "../../../hooks/useParcel";
 import useUser from "../../../hooks/useUser";
 
@@ -14,6 +16,7 @@ const AllUsers = () => {
     //     }
     // })
 
+    const axiosSecure = useAxiosSecure();
     const [users] = useUser();
     const [parcels] = useParcel();
 
@@ -21,7 +24,24 @@ const AllUsers = () => {
     const parcel = parcels.map(parcel => console.log(parcel))
 
     console.log(leUsers)
-    console.log("parcel: ", parcel)
+    console.log("parcel: ", parcel);
+
+    const handleMakeAdmin = user => {
+
+        axiosSecure.patch(`/users/admin/${user._id}`)
+        .then(res => {
+            if(res.data.modifiedCount > 0){
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Your work has been saved",
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+            }
+        })
+        
+    }
 
     return (
         <div className=" px-4 py-12">
@@ -55,7 +75,6 @@ const AllUsers = () => {
                                             {idx + 1}
                                         </label>
                                     </th>
-
                                     <td>
                                         <div className="font-bold">{user.displayName}</div>
                                     </td>
@@ -66,10 +85,14 @@ const AllUsers = () => {
                                         <div className="text-center">15</div>
                                     </td>
                                     <td>
-                                        <div className="text-center"> deliverman </div>
+                                        <div className="text-center">
+                                            <button>deliverman</button>
+                                        </div>
                                     </td>
                                     <td>
-                                        <div className="text-center"> admin </div>
+                                        <div className="text-center">
+                                            <button onClick={() => handleMakeAdmin(user)}>admin</button>
+                                        </div>
                                     </td>
 
                                 </tr>)

@@ -10,7 +10,7 @@ const useParcel = () => {
     const { refetch, data: parcels = [] } = useQuery({
         queryKey: ['parcels', user?.email],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/parcels?email=${user.email}`);
+            const res = await axiosSecure.get(`/parcel/email?email=${user.email}`);
             return res.data
         }
     })
