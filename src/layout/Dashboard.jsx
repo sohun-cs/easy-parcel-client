@@ -3,6 +3,7 @@ import useAuth from "../hooks/useAuth";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
 import Navbar from "../shared/Navbar";
+import useAdmin from "../hooks/useAdmin";
 
 const Dashboard = () => {
     const { user } = useAuth();
@@ -22,6 +23,8 @@ const Dashboard = () => {
     console.log('data: ', users);
     console.log('role: ', currentUser?.role);
 
+    const [isAdmin] = useAdmin();
+
     return (
         <div>
             <Navbar></Navbar>
@@ -33,7 +36,7 @@ const Dashboard = () => {
 
                     <ul>
                         {
-                            currentUser?.role === 'admin'
+                            isAdmin
                             &&
                             <>
                                 <li><Link to='/dashboard/all-deliveryperson'>
