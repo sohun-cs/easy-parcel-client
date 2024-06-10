@@ -16,6 +16,8 @@ import AllParcels from "../pages/dashboard/admin/AllParcels";
 import AllUsers from "../pages/dashboard/admin/AllUsers";
 import Statistics from "../pages/dashboard/admin/Statistics";
 import EditParcel from "../pages/dashboard/user/EditParcel";
+import AdminRoute from "./AdminRoute";
+import Payment from "../pages/dashboard/user/Payment";
 
 
 const router = createBrowserRouter([
@@ -50,19 +52,19 @@ const router = createBrowserRouter([
             // Admin
             {
                 path: 'all-deliveryperson',
-                element: <AllDeliveryMen></AllDeliveryMen>
+                element: <AdminRoute><AllDeliveryMen></AllDeliveryMen></AdminRoute>
             },
             {
                 path: 'all-parcels',
-                element: <AllParcels></AllParcels>,
+                element: <AdminRoute><AllParcels></AllParcels></AdminRoute>
             },
             {
                 path: 'all-users',
-                element: <AllUsers></AllUsers>
+                element: <AdminRoute><AllUsers></AllUsers></AdminRoute>
             },
             {
                 path: 'statistics',
-                element: <Statistics></Statistics>
+                element: <AdminRoute><Statistics></Statistics></AdminRoute>
             },
 
 
@@ -82,8 +84,17 @@ const router = createBrowserRouter([
             {
                 path: 'edit-parcel/:id',
                 element: <EditParcel></EditParcel>,
-                loader: ({params}) => fetch(`${import.meta.env.VITE_BASE_URL}/parcel/${params.id}`)
+                loader: ({ params }) => fetch(`${import.meta.env.VITE_BASE_URL}/parcel/${params.id}`)
             },
+            {
+                path: 'payment',
+                element: <Payment></Payment>
+            },
+            // {
+            //     path: 'payment/:id',
+            //     element: <Payment></Payment>,
+            //     loader: ({ params }) => fetch(`${import.meta.env.VITE_BASE_URL}/parcel/${params.id}`)
+            // },
 
             // Deliveri Person
             {

@@ -49,6 +49,9 @@ const MyParcel = () => {
     return (
         <div className=" px-4 py-12">
             <div className="px-4">
+                <Link to="/dashboard/payment">
+                    <button className="btn btn-primary">Pay</button>
+                </Link>
                 <table className="table shadow-xl">
                     {/* head */}
                     <thead>
@@ -109,7 +112,9 @@ const MyParcel = () => {
                                         <div className="flex justify-center items-center"><MdCancel className="cursor-pointer" onClick={() => handleDelete(parcel._id)} /></div>
                                     </td>
                                     <th className=" flex justify-center items-center">
-                                        <button className="btn btn-xs">Pay</button>
+                                        <Link to={`/dashboard/payment/${parcel._id}`}>
+                                            <button disabled className="btn btn-xs">Pay</button>
+                                        </Link>
                                     </th>
                                 </tr>)
                         }

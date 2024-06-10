@@ -8,7 +8,7 @@ const useAllParcel = () => {
     const { refetch, data: allParcel = [] } = useQuery({
         queryKey: ['parcels'],
         queryFn: async () => {
-            const res = await axiosSecure.get('parcels');
+            const res = await axiosSecure.get('/parcels');
             return res.data;
         }
     })

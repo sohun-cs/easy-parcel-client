@@ -1,27 +1,25 @@
 import { Link, Outlet } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
-import useAxiosPublic from "../hooks/useAxiosPublic";
-import { useQuery } from "@tanstack/react-query";
+
 import Navbar from "../shared/Navbar";
 import useAdmin from "../hooks/useAdmin";
 
 const Dashboard = () => {
-    const { user } = useAuth();
-    const axiosPublic = useAxiosPublic();
+    // const { user } = useAuth();
+    // const axiosPublic = useAxiosPublic();
 
-    const { data: users = [] } = useQuery({
-        queryKey: ['users'],
-        queryFn: async () => {
-            const res = await axiosPublic.get('/users')
-            return res.data
-        }
-    })
+    // const { data: users = [] } = useQuery({
+    //     queryKey: ['users'],
+    //     queryFn: async () => {
+    //         const res = await axiosPublic.get('/users')
+    //         return res.data
+    //     }
+    // })
 
-    const currentUser = users.find(findUser => findUser.email === user.email)
-    console.log(currentUser)
+    // const currentUser = users.find(findUser => findUser.email === user.email)
+    // console.log(currentUser)
 
-    console.log('data: ', users);
-    console.log('role: ', currentUser?.role);
+    // console.log('data: ', users);
+    // console.log('role: ', currentUser?.role);
 
     const [isAdmin] = useAdmin();
 
@@ -37,31 +35,43 @@ const Dashboard = () => {
                     <ul>
                         {
                             isAdmin
-                            &&
-                            <>
-                                <li><Link to='/dashboard/all-deliveryperson'>
-                                    All Delivery Person
-                                </Link>
-                                </li>
-                                <li>
-                                    <Link to='/dashboard/all-parcels'>
-                                        All Parcels
+                                ?
+                                <>
+                                    <li><Link to='/dashboard/all-deliveryperson'>
+                                        All Delivery Person
                                     </Link>
-                                </li>
-                                <li>
-                                    <Link to='/dashboard/all-users'>
-                                        All Users
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to='/dashboard/statistics'>
-                                        Statistics
-                                    </Link>
-                                </li>
-                            </>
+                                    </li>
+                                    <li>
+                                        <Link to='/dashboard/all-parcels'>
+                                            All Parcels
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to='/dashboard/all-users'>
+                                            All Users
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to='/dashboard/statistics'>
+                                            Statistics
+                                        </Link>
+                                    </li>
+                                </>
+                                :
+                                <>
+                                    <li>
+                                        <Link to='/dashboard/book-parcel'>Book a Parcel</Link>
+                                    </li>
+                                    <li>
+                                        <Link to='/dashboard/my-parcel'>My Parcel</Link>
+                                    </li>
+                                    <li>
+                                        <Link to='/dashboard/my-profile'>My Profile</Link>
+                                    </li>
+                                </>
                         }
 
-                        {
+                        {/* {
                             currentUser?.role === 'user'
                             &&
                             <>
@@ -75,8 +85,8 @@ const Dashboard = () => {
                                     <Link to='/dashboard/my-profile'>My Profile</Link>
                                 </li>
                             </>
-                        }
-                        {
+                        } */}
+                        {/* {
                             currentUser?.role === 'deliveryPerson'
                             &&
                             <>
@@ -87,7 +97,7 @@ const Dashboard = () => {
                                     <Link to='/dashboard/my-reviews'>My Reviews</Link>
                                 </li>
                             </>
-                        }
+                        } */}
                     </ul>
 
                 </div>
