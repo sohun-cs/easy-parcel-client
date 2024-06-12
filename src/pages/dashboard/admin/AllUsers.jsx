@@ -108,7 +108,7 @@ const AllUsers = () => {
                                     </td>
                                     <td>
                                         <div className="text-center">
-                                            <button onClick={() => handleMakeDeliverer(user)}>deliverman</button>
+                                            <button onClick={() => handleMakeDeliverer(user)}>deliveryman</button>
                                         </div>
                                     </td>
                                     <td>

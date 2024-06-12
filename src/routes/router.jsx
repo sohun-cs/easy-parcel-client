@@ -18,12 +18,16 @@ import Statistics from "../pages/dashboard/admin/Statistics";
 import EditParcel from "../pages/dashboard/user/EditParcel";
 import AdminRoute from "./AdminRoute";
 import Payment from "../pages/dashboard/user/Payment";
+import PaymentHistory from "../pages/dashboard/user/PaymentHistory";
+import DelivererRoute from "./DelivererRoute";
+import Error from "../Error/Error";
 
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <Root></Root>,
+        errorElement: <Error></Error>,
         children: [
             {
                 path: '/',
@@ -49,25 +53,6 @@ const router = createBrowserRouter([
         element: <PrivateRoutes><Dashboard></Dashboard></PrivateRoutes>,
         children: [
 
-            // Admin
-            {
-                path: 'all-deliveryperson',
-                element: <AdminRoute><AllDeliveryMen></AllDeliveryMen></AdminRoute>
-            },
-            {
-                path: 'all-parcels',
-                element: <AdminRoute><AllParcels></AllParcels></AdminRoute>
-            },
-            {
-                path: 'all-users',
-                element: <AdminRoute><AllUsers></AllUsers></AdminRoute>
-            },
-            {
-                path: 'statistics',
-                element: <AdminRoute><Statistics></Statistics></AdminRoute>
-            },
-
-
             // User
             {
                 path: 'book-parcel',
@@ -87,8 +72,13 @@ const router = createBrowserRouter([
                 loader: ({ params }) => fetch(`${import.meta.env.VITE_BASE_URL}/parcel/${params.id}`)
             },
             {
-                path: 'payment',
-                element: <Payment></Payment>
+                path: 'payment/:id',
+                element: <Payment></Payment>,
+                loader: ({ params }) => fetch(`${import.meta.env.VITE_BASE_URL}/parcel/${params.id}`)
+            },
+            {
+                path: 'payment-history',
+                element: <PaymentHistory></PaymentHistory>
             },
             // {
             //     path: 'payment/:id',
@@ -96,14 +86,36 @@ const router = createBrowserRouter([
             //     loader: ({ params }) => fetch(`${import.meta.env.VITE_BASE_URL}/parcel/${params.id}`)
             // },
 
+
+            // Admin
+            {
+                path: 'all-deliveryperson',
+                element: <AdminRoute><AllDeliveryMen></AllDeliveryMen></AdminRoute>
+            },
+            {
+                path: 'all-parcels',
+                element: <AdminRoute><AllParcels></AllParcels></AdminRoute>,
+                loader: () => fetch(`${import.meta.env.VITE_BASE_URL}/users`)
+            },
+            {
+                path: 'all-users',
+                element: <AdminRoute><AllUsers></AllUsers></AdminRoute>
+            },
+            {
+                path: 'statistics',
+                element: <AdminRoute><Statistics></Statistics></AdminRoute>
+            },
+
+
+
             // Deliveri Person
             {
                 path: 'my-delivery-lists',
-                element: <MyDeliveryList></MyDeliveryList>
+                element: <DelivererRoute><MyDeliveryList></MyDeliveryList></DelivererRoute>
             },
             {
                 path: 'my-reviews',
-                element: <MyReviews></MyReviews>
+                element: <DelivererRoute><MyReviews></MyReviews></DelivererRoute>
             }
         ]
     }

@@ -2,6 +2,8 @@ import { Link, Outlet } from "react-router-dom";
 
 import Navbar from "../shared/Navbar";
 import useAdmin from "../hooks/useAdmin";
+import useAuth from "../hooks/useAuth";
+import useDeliveryPerson from "../hooks/useDeliveryPerson";
 
 const Dashboard = () => {
     // const { user } = useAuth();
@@ -22,6 +24,8 @@ const Dashboard = () => {
     // console.log('role: ', currentUser?.role);
 
     const [isAdmin] = useAdmin();
+    const { user } = useAuth();
+    const [isDeliverer] = useDeliveryPerson();
 
     return (
         <div>
@@ -33,7 +37,71 @@ const Dashboard = () => {
                 <div className="w-20 lg:w-64 text-sm lg:text-base text-pink-50 bg-pink-500">
 
                     <ul>
+
+
+
+
                         {
+                            isAdmin &&
+
+                            <>
+                                <li><Link to='/dashboard/all-deliveryperson'>
+                                    All Delivery Person
+                                </Link>
+                                </li>
+                                <li>
+                                    <Link to='/dashboard/all-parcels'>
+                                        All Parcels
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to='/dashboard/all-users'>
+                                        All Users
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to='/dashboard/statistics'>
+                                        Statistics
+                                    </Link>
+                                </li>
+                            </>
+
+                            ||
+
+                            isDeliverer &&
+                            <>
+                                <li>
+                                    <Link to='/dashboard/my-delivery-lists'>My Delivery List</Link>
+                                </li>
+                                <li>
+                                    <Link to='/dashboard/my-reviews'>My Reviews</Link>
+                                </li>
+                            </>
+
+                            ||
+
+                            user &&
+                            <>
+                                <li>
+                                    <Link to='/dashboard/book-parcel'>Book a Parcel</Link>
+                                </li>
+                                <li>
+                                    <Link to='/dashboard/my-parcel'>My Parcel</Link>
+                                </li>
+                                <li>
+                                    <Link to='/dashboard/my-profile'>My Profile</Link>
+                                </li>
+                            </>
+
+                        }
+
+  
+
+
+
+
+
+                        {/* {
                             isAdmin
                                 ?
                                 <>
@@ -57,6 +125,7 @@ const Dashboard = () => {
                                         </Link>
                                     </li>
                                 </>
+
                                 :
                                 <>
                                     <li>
@@ -69,7 +138,20 @@ const Dashboard = () => {
                                         <Link to='/dashboard/my-profile'>My Profile</Link>
                                     </li>
                                 </>
-                        }
+
+                        } */}
+
+                        {/* {
+                            isDeliverer &&
+                            <>
+                                <li>
+                                    <Link to='/dashboard/my-delivery-lists'>My Delivery List</Link>
+                                </li>
+                                <li>
+                                    <Link to='/dashboard/my-reviews'>My Reviews</Link>
+                                </li>
+                            </>
+                        } */}
 
                         {/* {
                             currentUser?.role === 'user'

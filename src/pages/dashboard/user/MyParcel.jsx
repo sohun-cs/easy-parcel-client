@@ -49,9 +49,9 @@ const MyParcel = () => {
     return (
         <div className=" px-4 py-12">
             <div className="px-4">
-                <Link to="/dashboard/payment">
+                {/* <Link to="/dashboard/payment">
                     <button className="btn btn-primary">Pay</button>
-                </Link>
+                </Link> */}
                 <table className="table shadow-xl">
                     {/* head */}
                     <thead>
@@ -113,7 +113,7 @@ const MyParcel = () => {
                                     </td>
                                     <th className=" flex justify-center items-center">
                                         <Link to={`/dashboard/payment/${parcel._id}`}>
-                                            <button disabled className="btn btn-xs">Pay</button>
+                                            <button className="btn btn-xs">Pay</button>
                                         </Link>
                                     </th>
                                 </tr>)
