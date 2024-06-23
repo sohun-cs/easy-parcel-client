@@ -8,10 +8,8 @@ const Payment = () => {
     console.log("stripePromise: ", import.meta.env.VITE_PAYMENT_KEY);
 
     return (
-        <div>
-            <h1>This is payment</h1>
-
-            <div>
+        <div >
+            <div className="h-[calc(100vh-82px)]">
                 <Elements stripe={stripePromise}>
                     <CheckoutForm></CheckoutForm>
                 </Elements>

@@ -76,7 +76,8 @@ const BookParcel = () => {
             date: date,
             latitude: latitude,
             longitude: longitude,
-            price: price
+            price: price,
+            status: 'Pending'
         }
 
         console.log(parcelData)

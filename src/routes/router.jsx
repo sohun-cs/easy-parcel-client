@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Root from "../layout/Root";
 import Home from "../pages/home/Home";
-import Notification from "../pages/notification/Notification";
 import Login from "../pages/authentication/Login";
 import Register from "../pages/authentication/Register";
 import PrivateRoutes from "./PrivateRoutes";
@@ -21,6 +20,7 @@ import Payment from "../pages/dashboard/user/Payment";
 import PaymentHistory from "../pages/dashboard/user/PaymentHistory";
 import DelivererRoute from "./DelivererRoute";
 import Error from "../Error/Error";
+import Location from "../pages/dashboard/deliveryPerson/Location";
 
 
 const router = createBrowserRouter([
@@ -33,10 +33,7 @@ const router = createBrowserRouter([
                 path: '/',
                 element: <Home></Home>
             },
-            {
-                path: '/notification',
-                element: <PrivateRoutes><Notification></Notification></PrivateRoutes>
-            },
+         
             {
                 path: '/login',
                 element: <Login></Login>
@@ -116,7 +113,12 @@ const router = createBrowserRouter([
             {
                 path: 'my-reviews',
                 element: <DelivererRoute><MyReviews></MyReviews></DelivererRoute>
-            }
+            },
+            {
+                path: 'location/:id',
+                element: <DelivererRoute><Location></Location></DelivererRoute>,
+                loader: ({params}) => fetch(`${import.meta.env.VITE_BASE_URL}/approved/${params.id}`)
+            },
         ]
     }
 ]);

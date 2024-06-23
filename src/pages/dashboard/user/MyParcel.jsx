@@ -12,7 +12,7 @@ const MyParcel = () => {
     const axiosSecure = useAxiosSecure();
 
     const total = parcels.reduce((total, parcel) => total + parcel.price, 0)
-    console.log(parcels);
+    console.log("parcels", parcels);
 
     // const handleEdit = (id) => [
 
@@ -52,7 +52,7 @@ const MyParcel = () => {
                 {/* <Link to="/dashboard/payment">
                     <button className="btn btn-primary">Pay</button>
                 </Link> */}
-                <table className="table shadow-xl">
+                <table className="table table-zebra table-zebra-zebra shadow-xl">
                     {/* head */}
                     <thead>
                         <tr>
@@ -65,10 +65,11 @@ const MyParcel = () => {
                             <th className="text-center">Requested</th>
                             <th className="text-center">Approximatedly</th>
                             <th className="text-center">Booking</th>
-                            <th className="text-center">Delivery Men</th>
+                            <th className="text-center">Cost</th>
                             <th className="text-center">Status</th>
                             <th className="text-center">Update</th>
                             <th className="text-center">Cancel</th>
+                            <th className="text-center">Review</th>
                             <th className="text-center">Pay</th>
                         </tr>
                     </thead>
@@ -96,44 +97,43 @@ const MyParcel = () => {
                                     <td>
                                         <div className="text-center">19/08/2024</div>
                                     </td>
+
                                     <td>
-                                        <div> - </div>
+                                        <div className="text-center">$ {parcel.price}</div>
                                     </td>
                                     <td>
                                         <div className="text-center">Pending</div>
                                     </td>
                                     <td>
                                         <div className="flex justify-center items-center">
-                                            <Link to={`/dashboard/edit-parcel/${parcel._id}`} ><MdEdit /></Link>
+                                            <Link to={`/dashboard/edit-parcel/${parcel._id}`} ><MdEdit className="text-gray-500 text-lg" /></Link>
                                         </div>
-
                                     </td>
                                     <td>
-                                        <div className="flex justify-center items-center"><MdCancel className="cursor-pointer" onClick={() => handleDelete(parcel._id)} /></div>
+                                        <div className="flex justify-center items-center"><MdCancel className="cursor-pointer text-amber-500 text-lg" onClick={() => handleDelete(parcel._id)} /></div>
                                     </td>
-                                    <th className=" flex justify-center items-center">
+                                    <td className="text-center">
+                                        <button className="px-4 py-1 text-xs bg-gray-600 text-gray-50 hover:bg-gray-900 hover:text-white duration-500 rounded-full ">Review</button>
+                                    </td>
+                                    <td className="text-center">
                                         <Link to={`/dashboard/payment/${parcel._id}`}>
-                                            <button className="btn btn-xs">Pay</button>
+                                            <button className="px-4 py-1 text-xs font-semibold bg-blue-300 hover:bg-blue-500 hover:text-white duration-500 rounded-md">Pay</button>
                                         </Link>
-                                    </th>
+                                    </td>
                                 </tr>)
                         }
 
 
                     </tbody>
-                    {/* <tfoot>
-                    <tr>
-                        <th></th>
-                        <th>Name</th>
-                        <th>Job</th>
-                        <th>Favorite Color</th>
-                        <th></th>
-                    </tr>
-                </tfoot> */}
+                    <tfoot className="">
+                        <tr className="">
 
+                            <th className="text-lg text-center" colSpan="12">Total Bill: ${total}</th>
 
+                        </tr>
+                    </tfoot>
                 </table>
-                <h1 className="text-2xl">Total Bill: {total}</h1>
+
             </div>
         </div >
     );

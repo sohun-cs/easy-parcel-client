@@ -15,27 +15,42 @@ const PaymentHistory = () => {
         }
     });
 
+    console.log("payments", payments);
+
     return (
-        <div>
-            <h2 className="text-3xl">Total Payments: {payments.length}</h2>
-            <div className="overflow-x-auto">
-                <table className="table ">
+        <div className="h-[calc(100vh-82px)]  px-4 py-12">
+            <div className="px-4">
+                <table className="table table-zebra table-zebra-zebra shadow-xl my-4 ">
                     {/* head */}
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>Name</th>
+                            <th>Parcel</th>
                             <th>Price</th>
-                            <th>Transaction Id</th>
-                            <th>Status</th>
+                            <th className="text-center">Transaction ID</th>
+                            <th className="text-center">Status</th>
+                            <th>Reciever Name</th>
+                            <th className="text-center">Date</th>
+                            <th className="text-center">Delivery Man</th>
+                            <th>Delivered Address</th>
+
                         </tr>
                     </thead>
                     <tbody>
                         {
                             payments.map((payment, index) => <tr key={payment._id}>
                                 <th>{index + 1}</th>
+                                <td>{payment.name}</td>
+                                <td>{payment.parcel}</td>
                                 <td>$ {payment.price}</td>
-                                <td>{payment.transactionId}</td>
-                                <td>{payment.status}</td>
+
+                                <td className="text-center">{payment.transactionId}</td>
+                                <td className="text-center">{payment.status}</td>
+                                <td>{payment.reciever_name}</td>
+                                <td className="text-center">{payment.date}</td>
+                                <td className="text-center">{payment.deliveryman_name ? payment.deliveryman_name : '-'}</td>
+                                <td>{payment.delivered_address}</td>
                             </tr>)
                         }
 

@@ -12,7 +12,7 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const Register = () => {
 
-    const { user, setUser, createUser, updateUser } = useAuth();
+    const { user, setUser, createUser, googleSignIn, updateUser } = useAuth();
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     const axiosPublic = useAxiosPublic();
@@ -59,9 +59,35 @@ const Register = () => {
             toast.error(error.message)
 
         }
-
-
     }
+
+    const handleGoogleSignIn = async () => {
+        await googleSignIn();
+
+        try {
+
+            await updateUser();
+
+            const googleUser = ({ ...user, role: 'user' })
+            setUser(googleUser);
+
+            axiosPublic.post('/users', googleUser)
+                .then(res => {
+                    console.log("res.data", res.data);
+                    if (res.data.insertedId) {
+                        toast.success('Successfully toasted!');
+                        navigate('/');
+                    }
+                })
+
+
+        } catch (error) {
+
+            console.error(error.message);
+
+        }
+    }
+
 
     return (
         <main className="w-full flex">
@@ -106,7 +132,7 @@ const Register = () => {
                         </div>
                     </div>
                     <div className="grid grid-cols-3 gap-x-3">
-                        <button className="flex items-center justify-center py-2.5 border rounded-lg hover:bg-gray-50 duration-150 active:bg-gray-100">
+                        <button onClick={handleGoogleSignIn} className="flex items-center justify-center py-2.5 border rounded-lg hover:bg-gray-50 duration-150 active:bg-gray-100">
                             <FcGoogle className="text-2xl" />
                         </button>
                         <button className="flex items-center justify-center py-2.5 border rounded-lg hover:bg-gray-50 duration-150 active:bg-gray-100">

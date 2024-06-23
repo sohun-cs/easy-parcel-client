@@ -47,13 +47,13 @@ const AllDeliveryMen = () => {
                                         <div className="font-bold text-center">{deiveryPerson.displayName}</div>
                                     </td>
                                     <td>
-                                        <div className="text-sm opacity-50 text-center">1212121</div>
+                                        <div className="text-sm opacity-50 text-center">992827112</div>
                                     </td>
                                     <td>
-                                        <div className="text-center">0</div>
+                                        <div className="text-center">232</div>
                                     </td>
                                     <td>
-                                        <div className="text-center"> 4 </div>
+                                        <div className="text-center"> 4.2 </div>
                                     </td>
 
                                 </tr>)

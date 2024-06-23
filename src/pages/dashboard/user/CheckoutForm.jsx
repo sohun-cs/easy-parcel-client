@@ -5,6 +5,7 @@ import useParcel from "../../../hooks/useParcel";
 import useAuth from "../../../hooks/useAuth";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import moment from "moment";
 
 const CheckoutForm = () => {
 
@@ -22,7 +23,7 @@ const CheckoutForm = () => {
     // console.log(totalPrice);
     const singleParcel = parcels.filter(parcel => parcel._id === id.id);
     const cost = singleParcel[0].price;
-    // console.log("singleParcel", singleParcel)
+    console.log("singleParcel", singleParcel)
     // console.log("singleParcel: ", id)
     console.log("cost", cost)
     const requestedDate = singleParcel.map(parcel => parcel.date)
@@ -87,17 +88,22 @@ const CheckoutForm = () => {
                 setTransactionId(paymentIntent.id);
 
                 const payment = {
-                    email: user.email,
+                    name: singleParcel[0].name,
+                    email: singleParcel[0].email,
+                    phone: singleParcel[0].phone_number,
+                    reciever_name: singleParcel[0].reciever_name,
+                    reciever_phone: singleParcel[0].reciever_phone,
                     parcel: singleParcel[0].parcel,
                     price: cost,
                     transactionId: paymentIntent.id,
                     parcel_id: id.id,
-                    date: new Date(),
-                    requested_date: requestedDate[0],
-                    status: 'Pending'
-
-                }
-
+                    date: moment().format("YY MMM Do"),
+                    requested_date: requestedDate[0].date,
+                    delivered_address: singleParcel[0].address,
+                    latitude: singleParcel[0].latitude,
+                    longitude: singleParcel[0].longitude,
+                    status: 'Paid'
+                };
 
                 const res = await axiosSecure.post('/payments', payment);
                 console.log('res: ', res.data);
@@ -107,23 +113,20 @@ const CheckoutForm = () => {
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
-                        title: "Payment done",
+                        title: "Thanks for the Payment. Have a good day!",
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 2000
                     });
 
                     navigate('/dashboard/payment-history')
                     refetch();
-
-
-
                 }
 
 
                 // try {
                 //     const res = await axiosSecure.post('/payments', payment);
                 //     console.log('res:', res.data);
-        
+
                 //     if (res.data?.paymentResult?.insertedId) {
                 //         Swal.fire({
                 //             position: 'top-end',
@@ -132,7 +135,7 @@ const CheckoutForm = () => {
                 //             showConfirmButton: false,
                 //             timer: 1500
                 //         });
-        
+
                 //         navigate('/dashboard/payment-history');
                 //     } else {
                 //         throw new Error('Payment result does not contain an insertedId');
@@ -157,7 +160,7 @@ const CheckoutForm = () => {
                 // });
                 // navigate('/dashboard/payment-history')
 
-            
+
 
             }
         }
@@ -165,8 +168,9 @@ const CheckoutForm = () => {
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center p-6 border border-gray-300 rounded-lg bg-gray-50 h-full">
+
+            <div className="w-full mb-4">
                 <CardElement
                     options={{
                         style: {
@@ -182,19 +186,20 @@ const CheckoutForm = () => {
                             },
                         },
                     }}
+                    className="p-3 border border-gray-300 rounded-lg bg-white shadow-sm focus:border-gray-700"
                 />
+            </div>
 
-                <button
-                    className="btn btn-sm btn-primary my-4 text-black"
-                    type="submit"
-                    disabled={!stripe || !clientSecret}>
-                    Pay
-                </button>
+            <button
+                className="btn btn-sm bg-pink-400 my-4 text-white hover:bg-pink-600 duration-500"
+                type="submit"
+                disabled={!stripe || !clientSecret}>
+                Pay
+            </button>
 
-                <p className="text-red-400">{error}</p>
-                {transactionId && <p className="text-green-500">Your Transaction</p>}
-            </form>
-        </div>
+            <p className="text-red-400">{error}</p>
+            {transactionId && <p className="text-green-500">Your Transaction</p>}
+        </form>
     );
 };
 

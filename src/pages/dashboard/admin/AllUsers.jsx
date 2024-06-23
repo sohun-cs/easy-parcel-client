@@ -28,37 +28,37 @@ const AllUsers = () => {
 
     const handleMakeDeliverer = user => {
         axiosSecure.patch(`/users/deliverer/${user._id}`)
-        .then(res => {
-            if(res.data.modifiedCount > 0){
-                refetch();
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: `${user.name} has become delveryperson now!`,
-                    showConfirmButton: false,
-                    timer: 1500
-                  });
-            }
-        })
+            .then(res => {
+                if (res.data.modifiedCount > 0) {
+                    refetch();
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: `${user.name} has become delveryperson now!`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
     }
 
 
     const handleMakeAdmin = user => {
 
         axiosSecure.patch(`/users/admin/${user._id}`)
-        .then(res => {
-            if(res.data.modifiedCount > 0){
-                refetch();
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: `${user.name} is an admin now!`,
-                    showConfirmButton: false,
-                    timer: 1500
-                  });
-            }
-        })
-        
+            .then(res => {
+                if (res.data.modifiedCount > 0) {
+                    refetch();
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: `${user.name} is an admin now!`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+
     }
 
     return (
@@ -101,21 +101,23 @@ const AllUsers = () => {
                                         <div className="text-sm opacity-50 text-center">{user?.role}</div>
                                     </td>
                                     <td>
-                                        <div className="text-sm opacity-50 text-center">{''}</div>
+                                        <div className="text-sm opacity-50 text-center">9923281</div>
                                     </td>
                                     <td>
                                         <div className="text-center">15</div>
                                     </td>
                                     <td>
                                         <div className="text-center">
-                                            <button onClick={() => handleMakeDeliverer(user)}>deliveryman</button>
+                                            <button onClick={() => handleMakeDeliverer(user)}
+                                                className="bg-blue-500 rounded-full px-4 py-1 text-xs text-white font-semibold hover:bg-blue-600 duration-500">Deliveryman</button>
                                         </div>
                                     </td>
                                     <td>
                                         <div className="text-center">
-                                           {
-                                            user?.role === 'admin' ? "Admin" : <button onClick={() => handleMakeAdmin(user)}>admin</button>
-                                           }
+                                            {
+                                                user?.role === 'admin' ? "Admin" : <button onClick={() => handleMakeAdmin(user)}
+                                                className="bg-green-500 rounded-full px-4 py-1 text-xs text-white font-semibold hover:bg-green-600 duration-500">Admin</button>
+                                            }
                                         </div>
                                     </td>
 

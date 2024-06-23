@@ -6,22 +6,6 @@ import useAuth from "../hooks/useAuth";
 import useDeliveryPerson from "../hooks/useDeliveryPerson";
 
 const Dashboard = () => {
-    // const { user } = useAuth();
-    // const axiosPublic = useAxiosPublic();
-
-    // const { data: users = [] } = useQuery({
-    //     queryKey: ['users'],
-    //     queryFn: async () => {
-    //         const res = await axiosPublic.get('/users')
-    //         return res.data
-    //     }
-    // })
-
-    // const currentUser = users.find(findUser => findUser.email === user.email)
-    // console.log(currentUser)
-
-    // console.log('data: ', users);
-    // console.log('role: ', currentUser?.role);
 
     const [isAdmin] = useAdmin();
     const { user } = useAuth();
@@ -31,15 +15,11 @@ const Dashboard = () => {
         <div>
             <Navbar></Navbar>
 
-            <div className="flex h-[calc(100vh-82px)]">
+            <div className="flex md:h-[calc(100vh-82px)]">
 
+                <div className="w-24 md:w-64 text-[10px] md:text-xl text-pink-50 bg-pink-500 flex">
 
-                <div className="w-20 lg:w-64 text-sm lg:text-base text-pink-50 bg-pink-500">
-
-                    <ul>
-
-
-
+                    <ul className="flex flex-col ms-2 md:ms-6 mt-6 space-y-2 md:space-y-3">
 
                         {
                             isAdmin &&
@@ -91,11 +71,14 @@ const Dashboard = () => {
                                 <li>
                                     <Link to='/dashboard/my-profile'>My Profile</Link>
                                 </li>
+                                <li>
+                                    <Link to='/dashboard/payment-history'>Payment History</Link>
+                                </li>
                             </>
 
                         }
 
-  
+
 
 
 
